@@ -319,11 +319,13 @@ body::before{
   image-rendering:pixelated;
 }
 /* scan overlay on photo */
-.nf-photo::after{
+/*.nf-photo::after{
   content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(
     0deg,transparent,transparent 1px,
     rgba(57,255,20,0.04) 1px,rgba(57,255,20,0.04) 2px
+  
+  */
   );
   pointer-events:none;
 }
@@ -485,7 +487,7 @@ body::before{
     <div class="boot-corner bc-tr"></div>
     <div class="boot-corner bc-bl"></div>
     <div class="boot-corner bc-br"></div>
-    <div id="bios-header">SHAFWAT/BIOS <span>™ v2.1.0</span></div>
+    <div id="bios-header">SZOLANTIS/BIOS <span>™ v2.1.0</span></div>
     <div id="bios-sub">PHOSPHOR EDITION — (C) 1994-2025 KNEARD SYSTEMS</div>
     <div id="post-lines"></div>
     <div id="boot-prog-wrap"><div id="boot-prog"></div></div>
@@ -665,7 +667,7 @@ body::before{
     </div>
     <div class="links-row">
       <a href="https://www.codeforces.com" class="lnk">GitHub</a>
-      <a href="#" class="lnk" id="discord-lnk">Discord</a>
+      <a href="" class="lnk" id="discord-lnk">Discord</a>
       <a href="#" class="lnk">Facebook</a>
       <a href="mailto:mdszamanabir@proton.me" class="lnk">Email</a>
     </div>
@@ -772,13 +774,13 @@ async function runBoot(){
   const dismiss=async()=>{
     if(resolved)return;resolved=true;
     boot.classList.add('fade-out');
-    await sleep(700);
+    await sleep(1200);
     boot.style.display='none';
     startBio();
   };
   document.addEventListener('keydown',dismiss,{once:true});
   document.addEventListener('click',dismiss,{once:true});
-  await sleep(2200);
+  await sleep(2600);
   dismiss();
 }
 runBoot();
