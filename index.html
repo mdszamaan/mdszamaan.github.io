@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>shafwat@arch:~ [PHOSPHOR v2.1]</title>
+<title>shafwat@loq:~ [PHOSPHOR v2.1]</title>
 <link href="https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -518,12 +518,12 @@ body::before{
         <div class="wb wb-m">−</div>
         <div class="wb">□</div>
       </div>
-      <div class="wt">shafwat@arch: ~</div>
+      <div class="wt">shafwat@loq: ~</div>
     </div>
     <div class="win-body">
 
       <div class="prompt">
-        <span class="p-user">shafwat</span><span class="p-at">@</span><span class="p-host">arch</span>
+        <span class="p-user">szaman</span><span class="p-at">@</span><span class="p-host">loq</span>
         <span class="p-sep">in</span><span class="p-path">~</span>
         <span class="p-git p-branch">main</span>
         <span class="p-arrow">❯</span>
@@ -536,7 +536,7 @@ body::before{
           <div class="nf-photo-label">[shafwat.jpg]</div>
         </div>
         <div class="nf-info">
-          <div class="nf-head"><span class="u">szolantis</span><span class="at">@</span><span class="h"></span></div>
+          <div class="nf-head"><span class="u">szolantis</span><span class="at">@loq</span><span class="h"></span></div>
           <hr class="nf-hr"/>
           <div class="nf-row"><span class="nf-k">name</span><span class="nf-v">Md Shafwat Zaman</span></div>
           <div class="nf-row"><span class="nf-k">alias</span><span class="nf-v"><span class="c3">Abir, Szolantis</span></span></div>
@@ -572,7 +572,7 @@ body::before{
       </div>
 
       <div class="prompt">
-        <span class="p-user">shafwat</span><span class="p-at">@</span><span class="p-host">arch</span>
+        <span class="p-user">shafwat</span><span class="p-at">@</span><span class="p-host">loq</span>
         <span class="p-sep">in</span><span class="p-path">~</span>
         <span class="p-arrow">❯</span>
         <span class="p-comment"># █</span>
@@ -629,9 +629,9 @@ body::before{
           </tr>
           <tr>
             <td class="td-yr">2024</td>
-            <td class="td-badge"><span class="badge b-cyan">CHAMPION LEAD</span></td>
+            <td class="td-badge"><span class="badge b-cyan">CHAMPION</span></td>
             <td class="td-name">BCSIR Science Fair</td>
-            <td class="td-sub">Champion project · Bangladesh Council of Scientific & Industrial Research</td>
+            <td class="td-sub">Champion project-teamlead · Bangladesh Council of Scientific & Industrial Research</td>
           </tr>
         </tbody>
       </table>
@@ -655,7 +655,7 @@ body::before{
       <div class="wt">links.conf</div>
     </div>
     <div class="prompt" style="padding:.6rem 1.2rem 0">
-      <span class="p-user">shafwat</span><span class="p-at">@</span><span class="p-host">arch</span>
+      <span class="p-user">shafwat</span><span class="p-at">@</span><span class="p-host">loq</span>
       <span class="p-arrow">❯</span>
       <span class="p-cmd">links.conf</span>
     </div>
@@ -739,12 +739,12 @@ async function runBoot(){
   await sleep(300);
   const posts=[
     ['SHAFWAT/BIOS SELF TEST INITIATED...','post-info'],
-    ['CHECKING RAM: 16384MB DDR4 .......... OK','post-ok'],
-    ['DETECTING CPU: AMD Ryzen 7 5800X .... OK','post-ok'],
-    ['SCANNING NVMe: 1TB Samsung 980 Pro .. OK','post-ok'],
+    ['CHECKING RAM:  .......... OK','post-ok'],
+    ['DETECTING CPU .... OK','post-ok'],
+    ['SCANNING NVMe: .... OK','post-ok'],
     ['LOADING KERNEL: linux-zen 6.12.1 ....','post-ok'],
     ['MOUNTING /dev/achievements .......... OK','post-ok'],
-    ['STARTING compositor: hyprland ....... OK','post-ok'],
+    ['STARTING compositor ....... OK','post-ok'],
     ['INITIALIZING portfolio.service ...... OK','post-ok'],
     ['WARNING: skill issue detector: OFF','post-warn'],
     ['BOOT SEQUENCE COMPLETE','post-ok'],
@@ -784,7 +784,7 @@ runBoot();
 // ── TYPED BIO ──
 async function startBio(){
   const el=document.getElementById('bio-out');
-  const txt="I'm Shafwat — a high school student from Bangladesh who\nlives in the terminal. Competitive programmer, science\nfair champion, and full-time Arch enjoyer.\n\nBtw I use Arch.";
+  const txt="Into physics, comp sci, and whatever sits at the edge of both.\nDrawn to obscure cinema and existential questions more than answers.\n\nRachmaninoff and Chopin when the atmosphere is just right.";
   for(const ch of txt){
     if(ch==='\n'){el.innerHTML+='\n<br/>';await sleep(140);continue}
     el.textContent+=ch;
@@ -815,4 +815,3 @@ window.addEventListener('scroll',()=>{
 </script>
 </body>
 </html>
-
