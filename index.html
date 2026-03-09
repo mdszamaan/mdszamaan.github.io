@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ALEX.CHEN // SYSTEM</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#00ff41;
+  --green-dim:#00b32c;
+  --green-dark:#003b0e;
+  --bg:#0a0a0a;
+  --mono:'Share Tech Mono',monospace;
+  --orb:'Orbitron',sans-serif;
+}
+*{cursor:none!important}
+#cursor{
+  position:fixed;width:20px;height:20px;border:1px solid var(--green);
+  border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+  transition:width .15s,height .15s,opacity .15s;
+  box-shadow:0 0 8px var(--green);
+}
+#cursor-dot{
+  position:fixed;width:4px;height:4px;background:var(--green);
+  border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+}
+#cursor.hover{width:40px;height:40px;opacity:.5}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--green);
+  font-family:var(--mono);font-size:14px;line-height:1.7;overflow-x:hidden;
+}
+#matrix-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;opacity:.18;pointer-events:none;}
+body::after{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);
+}
+/* NAV */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(10,10,10,.93);backdrop-filter:blur(4px);
+  border-bottom:1px solid rgba(0,255,65,.2);
+  padding:0 3rem;display:flex;align-items:center;justify-content:space-between;height:50px;
+}
+.nav-id{font-family:var(--orb);font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--green);text-decoration:none;}
+.nav-id span{color:rgba(0,255,65,.35)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{
+  font-size:11px;color:rgba(0,255,65,.5);text-decoration:none;
+  letter-spacing:.1em;text-transform:uppercase;transition:color .15s,text-shadow .15s;
+}
+.nav-links a:hover{color:var(--green);text-shadow:0 0 10px var(--green)}
+/* BOOT */
+#boot{
+  position:fixed;inset:0;z-index:500;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-family:var(--mono);color:var(--green);font-size:13px;transition:opacity .7s;
+}
+#boot.hidden{opacity:0;pointer-events:none}
+#boot-text{max-width:500px;width:90%;line-height:2.1}
+#boot-bar-wrap{margin-top:1.5rem;width:300px;border:1px solid var(--green-dim);height:6px;background:#000}
+#boot-bar{height:100%;background:var(--green);width:0%;box-shadow:0 0 8px var(--green);transition:width .04s linear}
+/* PAGE */
+.page{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 2rem 8rem}
+/* HERO */
+.hero{padding:5rem 0 4rem;border-bottom:1px solid rgba(0,255,65,.15)}
+.hero-label{font-size:11px;letter-spacing:.2em;color:var(--green-dim);text-transform:uppercase;margin-bottom:1rem}
+.hero-label::before{content:'// '}
+.hero-name{
+  font-family:var(--orb);font-size:clamp(2.2rem,6vw,4rem);font-weight:900;
+  letter-spacing:.05em;line-height:1.1;
+  text-shadow:0 0 30px rgba(0,255,65,.4),0 0 60px rgba(0,255,65,.1);
+  margin-bottom:.3rem;position:relative;display:inline-block;
+}
+.glitch::before,.glitch::after{
+  content:attr(data-text);position:absolute;top:0;left:0;width:100%;
+}
+.glitch::before{
+  color:rgba(0,255,65,.5);clip-path:polygon(0 0,100% 0,100% 35%,0 35%);
+  animation:g1 3.5s infinite;
+}
+.glitch::after{
+  color:rgba(0,160,40,.4);clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%);
+  animation:g2 3.5s infinite;
+}
+@keyframes g1{0%,88%,100%{transform:translate(0)}89%{transform:translate(-3px,-1px)}91%{transform:translate(3px,1px)}93%{transform:translate(0)}}
+@keyframes g2{0%,88%,100%{transform:translate(0)}90%{transform:translate(3px,1px)}92%{transform:translate(-3px,-1px)}94%{transform:translate(0)}}
+.hero-role{font-size:12px;letter-spacing:.18em;color:var(--green-dim);text-transform:uppercase;margin-bottom:2rem;display:flex;align-items:center;gap:.5rem}
+.hero-role::before{content:'';display:inline-block;width:30px;height:1px;background:var(--green-dim)}
+#typed-bio{max-width:560px;font-size:13.5px;color:rgba(0,255,65,.8);line-height:1.9;margin-bottom:2rem;min-height:5rem}
+.cursor-blink{display:inline-block;width:8px;height:14px;background:var(--green);animation:blink .7s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.status{display:flex;align-items:center;gap:.5rem;margin-top:1.5rem;font-size:11px;color:var(--green-dim)}
+.status-dot{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,255,65,.5)}50%{box-shadow:0 0 0 6px rgba(0,255,65,0)}}
+.hero-links{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.5rem}
+.hero-links a{
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--green);text-decoration:none;
+  border:1px solid rgba(0,255,65,.3);padding:5px 14px;transition:all .2s;position:relative;overflow:hidden;
+}
+.hero-links a::before{content:'';position:absolute;inset:0;background:var(--green);transform:translateX(-101%);transition:transform .2s;z-index:-1}
+.hero-links a:hover{color:#000;border-color:var(--green);box-shadow:0 0 15px rgba(0,255,65,.3)}
+.hero-links a:hover::before{transform:translateX(0)}
+/* SECTIONS */
+section{padding:4rem 0 0}
+section+section{margin-top:3rem;border-top:1px solid rgba(0,255,65,.12)}
+.section-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem}
+.section-title{font-family:var(--orb);font-size:13px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--green);text-shadow:0 0 12px rgba(0,255,65,.35)}
+.section-line{flex:1;height:1px;background:rgba(0,255,65,.15)}
+.section-num{font-size:11px;color:rgba(0,255,65,.3);letter-spacing:.05em}
+/* PROJECTS */
+.project{
+  border:1px solid rgba(0,255,65,.15);padding:1.5rem;margin-bottom:1.2rem;
+  position:relative;transition:border-color .25s,box-shadow .25s,transform .2s;
+  background:rgba(0,255,65,.018);overflow:hidden;
+}
+.project::before{content:'';position:absolute;top:0;left:0;width:3px;height:0;background:var(--green);transition:height .3s}
+.project:hover{border-color:rgba(0,255,65,.5);box-shadow:0 0 25px rgba(0,255,65,.1),inset 0 0 20px rgba(0,255,65,.03);transform:translateX(5px)}
+.project:hover::before{height:100%}
+.project-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem}
+.project-name{font-family:var(--orb);font-size:11.5px;font-weight:700;letter-spacing:.08em;color:var(--green)}
+.project-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.ptag{font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(0,255,65,.25);padding:2px 7px;color:var(--green-dim)}
+.project-venue{font-size:11px;color:rgba(0,255,65,.38);margin-bottom:.7rem;letter-spacing:.03em}
+.project p{font-size:12.5px;color:rgba(0,255,65,.7);line-height:1.85}
+.project-links{margin-top:.9rem;display:flex;gap:1.2rem}
+.project-links a{font-size:11px;color:var(--green-dim);text-decoration:none;letter-spacing:.05em;transition:color .15s,text-shadow .15s}
+.project-links a::before{content:'['}
+.project-links a::after{content:']'}
+.project-links a:hover{color:var(--green);text-shadow:0 0 8px var(--green)}
+/* ACHIEVEMENTS */
+.ach-item{display:grid;grid-template-columns:80px 1fr;gap:1.5rem;padding:1rem 0;border-bottom:1px solid rgba(0,255,65,.08);align-items:center;transition:background .2s}
+.ach-item:first-child{border-top:1px solid rgba(0,255,65,.08)}
+.ach-item:hover{background:rgba(0,255,65,.025)}
+.ach-year{font-size:11px;color:rgba(0,255,65,.35);letter-spacing:.05em;text-align:right;border-right:1px solid rgba(0,255,65,.12);padding-right:1.5rem}
+.ach-name{font-family:var(--orb);font-size:11px;font-weight:700;letter-spacing:.06em;margin-bottom:.25rem;color:var(--green)}
+.ach-sub{font-size:11.5px;color:rgba(0,255,65,.43);letter-spacing:.02em}
+/* FOOTER */
+footer{
+  position:relative;z-index:2;border-top:1px solid rgba(0,255,65,.12);
+  padding:2rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;
+  font-size:11px;color:rgba(0,255,65,.3);letter-spacing:.05em;
+  max-width:860px;margin:0 auto;
+}
+footer a{color:rgba(0,255,65,.4);text-decoration:none;transition:color .15s}
+footer a:hover{color:var(--green)}
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .page{padding:0 1rem 5rem}
+  .ach-item{grid-template-columns:55px 1fr;gap:.8rem}
+  .ach-year{padding-right:.8rem}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+<canvas id="matrix-canvas"></canvas>
+
+<!-- BOOT -->
+<div id="boot">
+  <div id="boot-text"></div>
+  <div id="boot-bar-wrap"><div id="boot-bar"></div></div>
+</div>
+
+<nav>
+  <a class="nav-id" href="#">ALEX<span>.</span>CHEN <span>// v2.1</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+  </ul>
+</nav>
+
+<main class="page">
+
+  <div class="hero" id="about">
+    <div class="hero-label">Initializing profile...</div>
+    <h1 class="hero-name glitch" data-text="ALEX CHEN">ALEX CHEN</h1>
+    <div class="hero-role">PhD Student &middot; Computer Science &middot; UW</div>
+    <div id="typed-bio"><span class="cursor-blink"></span></div>
+    <div class="status reveal">
+      <span class="status-dot"></span>
+      <span>SYSTEM ONLINE // ACCEPTING CONNECTIONS</span>
+    </div>
+    <div class="hero-links reveal">
+      <a href="mailto:alex@cs.uw.edu">Email</a>
+      <a href="#">GitHub</a>
+      <a href="#">Scholar</a>
+      <a href="#">CV.pdf</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name">FlexInfer: Adaptive Batching for LLM Serving</div>
+        <div class="project-tags"><span class="ptag">Systems</span><span class="ptag">ML</span></div>
+      </div>
+      <div class="project-venue">// NeurIPS 2024 · with Sarah Lin, James Park</div>
+      <p>A serving system for large language models that dynamically reorders and batches decode requests to maximize GPU utilization. By exploiting output-length prediction, it achieves 2.1× higher throughput vs continuous batching baselines while maintaining tail latency guarantees.</p>
+      <div class="project-links"><a href="#">arXiv</a><a href="#">code</a><a href="#">slides</a><a href="#">talk</a></div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name">SparseFlow: Compiler-Driven Sparse Attention</div>
+        <div class="project-tags"><span class="ptag">Compilers</span><span class="ptag">CUDA</span></div>
+      </div>
+      <div class="project-venue">// PLDI 2024 · with Raj Mehta</div>
+      <p>A compiler pass that automatically identifies and exploits structured sparsity patterns in transformer attention layers. Generates hardware-specific kernels for CUDA and TPU backends, reducing attention computation by up to 4× on long-context workloads with zero quality loss.</p>
+      <div class="project-links"><a href="#">arXiv</a><a href="#">code</a><a href="#">poster</a></div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name">NASBench-Graph: GNN Architecture Search Benchmark</div>
+        <div class="project-tags"><span class="ptag">ML</span><span class="ptag">Graphs</span></div>
+      </div>
+      <div class="project-venue">// ICLR 2023 · UW Systems Lab</div>
+      <p>A reproducible benchmark suite for NAS methods on graph-structured data. Pre-trained and evaluated 50,000+ GNN architectures across 8 datasets, releasing all checkpoints and evaluation infrastructure for fair community-wide comparisons.</p>
+      <div class="project-links"><a href="#">arXiv</a><a href="#">dataset</a><a href="#">code</a></div>
+    </div>
+
+    <div class="project reveal">
+      <div class="project-top">
+        <div class="project-name">Lock-Free B-Trees on Persistent Memory</div>
+        <div class="project-tags"><span class="ptag">Systems</span><span class="ptag">Thesis</span></div>
+      </div>
+      <div class="project-venue">// Senior Thesis · Carnegie Mellon University · 2021</div>
+      <p>Designed a lock-free B-tree optimized for Intel Optane persistent memory. Leveraged hardware transactional memory and careful cache-line alignment to achieve write throughput within 15% of DRAM-resident structures under arbitrary crash-recovery scenarios.</p>
+      <div class="project-links"><a href="#">report</a><a href="#">code</a></div>
+    </div>
+  </section>
+
+  <section id="achievements">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Achievements</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="reveal">
+      <div class="ach-item">
+        <div class="ach-year">2024</div>
+        <div><div class="ach-name">NSF Graduate Research Fellowship</div><div class="ach-sub">National Science Foundation — ML Systems track</div></div>
+      </div>
+      <div class="ach-item">
+        <div class="ach-year">2024</div>
+        <div><div class="ach-name">Best Paper Award — NeurIPS Systems Track</div><div class="ach-sub">For FlexInfer: Adaptive Batching for LLM Serving</div></div>
+      </div>
+      <div class="ach-item">
+        <div class="ach-year">2023</div>
+        <div><div class="ach-name">Outstanding Research Award, UW CSE</div><div class="ach-sub">Paul G. Allen School of Computer Science & Engineering</div></div>
+      </div>
+      <div class="ach-item">
+        <div class="ach-year">2023</div>
+        <div><div class="ach-name">Google PhD Fellowship — Finalist</div><div class="ach-sub">Systems and Networking track</div></div>
+      </div>
+      <div class="ach-item">
+        <div class="ach-year">2021</div>
+        <div><div class="ach-name">Valedictorian — School of Computer Science</div><div class="ach-sub">Carnegie Mellon University, BS Computer Science</div></div>
+      </div>
+      <div class="ach-item">
+        <div class="ach-year">2021</div>
+        <div><div class="ach-name">ACM ICPC North America Championship — 2nd Place</div><div class="ach-sub">Team lead, CMU contingent</div></div>
+      </div>
+      <div class="ach-item">
+        <div class="ach-year">2019</div>
+        <div><div class="ach-name">USACO Platinum Division — Top 10</div><div class="ach-sub">USA Computing Olympiad</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>© 2026 ALEX.CHEN // ALL RIGHTS RESERVED</span>
+  <span><a href="#">SOURCE_CODE</a> // BUILT WITH HTML+CSS+JS</span>
+</footer>
+
+<script>
+// ── CUSTOM CURSOR ──
+const cursor=document.getElementById('cursor'),dot=document.getElementById('cursor-dot');
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px'});
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
+});
+(function loop(){cx+=(mx-cx)*.15;cy+=(my-cy)*.15;cursor.style.left=cx+'px';cursor.style.top=cy+'px';requestAnimationFrame(loop)})();
+
+// ── MATRIX RAIN ──
+const canvas=document.getElementById('matrix-canvas'),ctx=canvas.getContext('2d');
+const CHARS='アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEF<>{}[]|\\/';
+let cols,drops;
+function initM(){
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  cols=Math.floor(canvas.width/18);
+  drops=Array.from({length:cols},()=>Math.random()*-80);
+}
+initM();
+window.addEventListener('resize',initM);
+setInterval(()=>{
+  ctx.fillStyle='rgba(10,10,10,0.05)';ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let i=0;i<cols;i++){
+    const x=i*18,y=drops[i]*18;
+    ctx.font='13px Share Tech Mono';
+    ctx.fillStyle='#cfffdf';ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],x,y);
+    ctx.fillStyle='#00ff41';ctx.fillText(CHARS[Math.floor(Math.random()*CHARS.length)],x,y-18);
+    if(y>canvas.height&&Math.random()>.975)drops[i]=0;
+    drops[i]+=.5;
+  }
+},45);
+
+// ── BOOT SEQUENCE ──
+const bootLines=['INITIALIZING KERNEL...','LOADING MEMORY MODULES... [OK]','ESTABLISHING SECURE CONNECTION... [OK]','DECRYPTING PROFILE DATA... [OK]','RUNNING INTEGRITY CHECK... [PASS]','ACCESS GRANTED. WELCOME.'];
+const bootEl=document.getElementById('boot-text'),bootBar=document.getElementById('boot-bar'),bootScreen=document.getElementById('boot');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function typeBootLine(line){
+  const p=document.createElement('div');bootEl.appendChild(p);
+  for(const ch of line){p.textContent+=ch;await sleep(20)}
+  await sleep(100);
+}
+(async()=>{
+  let pct=0;
+  const iv=setInterval(()=>{pct=Math.min(pct+1.3,100);bootBar.style.width=pct+'%'},30);
+  for(const l of bootLines){await typeBootLine(l);await sleep(60)}
+  clearInterval(iv);bootBar.style.width='100%';
+  await sleep(500);
+  bootScreen.classList.add('hidden');
+  await sleep(700);bootScreen.style.display='none';
+  // start typing bio after boot
+  const bioText="I'm a PhD student at the University of Washington, advised by Prof. Sarah Lin. My research focuses on efficient machine learning systems — hardware-aware neural architecture design and compiler optimizations for large-scale model inference.\n\nPreviously I completed my BS at Carnegie Mellon and interned at Google Brain and Meta AI Research. A full CV is available below.";
+  const bio=document.getElementById('typed-bio');
+  bio.innerHTML='<span class="cursor-blink"></span>';
+  for(const ch of bioText){
+    const c=bio.querySelector('.cursor-blink');
+    if(ch==='\n'){bio.insertBefore(document.createElement('br'),c);await sleep(200);continue}
+    bio.insertBefore(document.createTextNode(ch),c);
+    await sleep(ch==='.'?90:20);
+  }
+})();
+
+// ── SCROLL REVEAL ──
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
