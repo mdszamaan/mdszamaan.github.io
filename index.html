@@ -887,7 +887,7 @@ function addPost(txt,cls='post-ok'){
 
 async function runBoot(){
   // 1. CRT power-on scan
-  await sleep(600000);
+  await sleep(250);
   scan.style.opacity='1';
   scan.style.transition='top 0.4s linear';
   scan.style.top='0';
@@ -956,7 +956,7 @@ async function runBoot(){
 };
   document.addEventListener('keydown',dismiss,{once:true});
   document.addEventListener('click',dismiss,{once:true});
-  await sleep(2600);
+  await sleep(600000);
   dismiss();
 }
 runBoot();
