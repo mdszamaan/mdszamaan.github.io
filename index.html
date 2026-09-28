@@ -578,6 +578,9 @@ body::before{
 </style>
 </head>
 <body>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <div id="cur"></div>
 
@@ -939,12 +942,18 @@ async function runBoot(){
   // 5. Auto-continue after 2.2s or keypress
   let resolved=false;
   const dismiss=async()=>{
-    if(resolved)return;resolved=true;
+    if(resolved)return;
+    resolved=true;
+
+    const bgMusic = document.getElementById('bgMusic');
+    bgMusic.volume = 0.6;
+    bgMusic.play().catch(()=>{});
+
     boot.classList.add('fade-out');
     await sleep(1200);
     boot.style.display='none';
     startBio();
-  };
+};
   document.addEventListener('keydown',dismiss,{once:true});
   document.addEventListener('click',dismiss,{once:true});
   await sleep(2600);
