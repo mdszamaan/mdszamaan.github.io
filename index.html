@@ -912,7 +912,7 @@ async function runBoot(){
   // 4. POST messages
   await sleep(300);
   const posts=[
-    ['SHAFWAT/BIOS SELF TEST INITIATED...','post-info'],
+    ['BIOS SELF TEST INITIATED...','post-info'],
     ['CHECKING RAM:  .......... OK','post-ok'],
     ['DETECTING CPU .... OK','post-ok'],
     ['SCANNING NVMe: .... OK','post-ok'],
@@ -920,7 +920,6 @@ async function runBoot(){
     ['MOUNTING /dev/achievements .......... OK','post-ok'],
     ['STARTING compositor ....... OK','post-ok'],
     ['INITIALIZING portfolio.service ...... OK','post-ok'],
-    ['WARNING: skill issue detector: OFF','post-warn'],
     ['BOOT SEQUENCE COMPLETE','post-ok'],
   ];
 
