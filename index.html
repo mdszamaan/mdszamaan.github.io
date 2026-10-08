@@ -965,7 +965,7 @@ async function startBio(){
   const el=document.getElementById('bio-out');
   const txt="c oo l  te ch , compsci, phys.\ncinema.\n\n And everything niche in between";
   for(const ch of txt){
-    if(ch==='\n'){el.innerHTML+='\n<br/>';await sleep(140);continue}
+    if(ch==='\n'){el.innerHTML+='\n<br/>';await sleep(670);continue}
     el.textContent+=ch;
     await sleep(ch==='.'?75:16);
   }
