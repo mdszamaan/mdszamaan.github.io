@@ -901,16 +901,16 @@ async function runBoot(){
   scan.style.opacity='0';
 
   // 2. Flash ASCII logo
-  asciiEl.style.transition='opacity .8s';
+  asciiEl.style.transition='opacity 2s';
   asciiEl.style.opacity='1';
   await sleep(690);
 
   // 3. BIOS box appears
-  biosBox.style.transition='opacity .25s';
+  biosBox.style.transition='opacity .5s';
   biosBox.style.opacity='1';
 
   // 4. POST messages
-  await sleep(210);
+  await sleep(400);
   const posts=[
     ['BIOS SELF TEST INITIATED...','post-info'],
     ['CHECKING RAM:  .......... OK','post-ok'],
